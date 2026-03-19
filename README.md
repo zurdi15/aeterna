@@ -32,6 +32,18 @@ Aeterna holds these words. It watches. It waits. And when the time comes, it del
 - **Heartbeat System**: Simple check-in mechanism via web UI or a quick-link from your email.
 - **Privacy-Focused Architecture**: Messages and attachments are encrypted at rest (AES-256-GCM) on your private server, ensuring they are only decrypted at the moment of delivery.
 
+## Screenshots
+
+<p align="center">
+  <table>
+    <tr>
+      <td align="center"><img src="assets/screenshots/dashboard.png" alt="Dashboard" width="280"><br><sub><b>Dashboard</b></sub></td>
+      <td align="center"><img src="assets/screenshots/creatingswitch.png" alt="Creating a Switch" width="280"><br><sub><b>Creating a Switch</b></sub></td>
+      <td align="center"><img src="assets/screenshots/settings.png" alt="Settings" width="280"><br><sub><b>Settings</b></sub></td>
+    </tr>
+  </table>
+</p>
+
 ## Quick Start
 
 ```bash
