@@ -20,6 +20,8 @@ type Message struct {
 	KeyFragment     string            `gorm:"column:key_fragment;not null" json:"-"`
 	ManagementToken string            `gorm:"column:management_token;not null" json:"-"`
 	RecipientEmail  string            `gorm:"not null" json:"recipient_email"`
+	Subject         string            `gorm:"column:subject" json:"subject"`
+	SenderEmail     string            `gorm:"column:sender_email" json:"sender_email"`
 	TriggerDuration int               `gorm:"not null" json:"trigger_duration"`
 	LastSeen        time.Time         `gorm:"not null;default:CURRENT_TIMESTAMP" json:"last_seen"`
 	Status          MessageStatus     `gorm:"default:'active'" json:"status"`

@@ -34,7 +34,10 @@ func sanitizeEmailHeader(s string) string {
 
 func (s EmailService) SendTriggeredMessage(settings models.Settings, msg models.Message, attachments []EmailAttachment) error {
 	to := msg.RecipientEmail
-	subject := "A message for you"
+	subject := msg.Subject
+	if subject == "" {
+		subject = "A message for you"
+	}
 
 	content := msg.Content
 	if msg.Content != "" {
@@ -44,20 +47,16 @@ func (s EmailService) SendTriggeredMessage(settings models.Settings, msg models.
 		}
 		content = decrypted
 	}
-	body := fmt.Sprintf(`Someone has arranged for this message to be delivered to you.
 
----
-
-%s
-
----
-
-Sent by Aeterna`, content)
+	// Override sender email if set per-message
+	if msg.SenderEmail != "" {
+		settings.SMTPFrom = msg.SenderEmail
+	}
 
 	if len(attachments) > 0 {
-		return s.SendWithAttachments(settings, to, subject, body, attachments)
+		return s.SendWithAttachments(settings, to, subject, content, attachments)
 	}
-	return s.SendPlain(settings, to, subject, body)
+	return s.SendPlain(settings, to, subject, content)
 }
 
 // SendWithAttachments sends an email with file attachments using MIME multipart/mixed

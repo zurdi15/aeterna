@@ -8,6 +8,8 @@ import (
 type CreateMessageRequest struct {
 	Content         string `json:"content"`
 	RecipientEmail  string `json:"recipient_email"`
+	Subject         string `json:"subject"`
+	SenderEmail     string `json:"sender_email"`
 	TriggerDuration int    `json:"trigger_duration"` // in minutes
 	Reminders       []int  `json:"reminders"`        // minutes before trigger
 }
@@ -24,7 +26,7 @@ func CreateMessage(c *fiber.Ctx) error {
 		return writeError(c, services.BadRequest("Invalid request body", err))
 	}
 
-	msg, err := messageService.Create(req.Content, req.RecipientEmail, req.TriggerDuration, req.Reminders)
+	msg, err := messageService.Create(req.Content, req.RecipientEmail, req.Subject, req.SenderEmail, req.TriggerDuration, req.Reminders)
 	if err != nil {
 		return writeError(c, err)
 	}
@@ -86,6 +88,8 @@ func DeleteMessage(c *fiber.Ctx) error {
 
 type UpdateMessageRequest struct {
 	Content         string `json:"content"`
+	Subject         string `json:"subject"`
+	SenderEmail     string `json:"sender_email"`
 	TriggerDuration int    `json:"trigger_duration"`
 	Reminders       []int  `json:"reminders"`
 }
@@ -97,7 +101,7 @@ func UpdateMessage(c *fiber.Ctx) error {
 		return writeError(c, services.BadRequest("Invalid request body", err))
 	}
 
-	msg, err := messageService.Update(id, req.Content, req.TriggerDuration, req.Reminders)
+	msg, err := messageService.Update(id, req.Content, req.Subject, req.SenderEmail, req.TriggerDuration, req.Reminders)
 	if err != nil {
 		return writeError(c, err)
 	}

@@ -104,6 +104,8 @@ export default function Dashboard() {
     // Edit state
     const [editingMessage, setEditingMessage] = useState(null);
     const [editContent, setEditContent] = useState('');
+    const [editSubject, setEditSubject] = useState('');
+    const [editSenderEmail, setEditSenderEmail] = useState('');
     const [editDuration, setEditDuration] = useState(1440);
     const [editReminders, setEditReminders] = useState([]);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -167,6 +169,8 @@ export default function Dashboard() {
     const openEditDialog = async (message) => {
         setEditingMessage(message);
         setEditContent(message.content);
+        setEditSubject(message.subject || '');
+        setEditSenderEmail(message.sender_email || '');
         setEditDuration(message.trigger_duration);
         setEditReminders(message.reminders ? message.reminders.map(r => r.minutes_before) : []);
         setEditNewFiles([]);
@@ -239,6 +243,8 @@ export default function Dashboard() {
                 method: 'PUT',
                 body: JSON.stringify({
                     content: editContent,
+                    subject: editSubject,
+                    sender_email: editSenderEmail,
                     trigger_duration: editDuration,
                     reminders: editReminders
                 })
@@ -505,6 +511,34 @@ export default function Dashboard() {
                                 className="min-h-[150px] bg-dark-950 border-dark-700 focus:border-teal-500 resize-none text-dark-100 placeholder:text-dark-500"
                                 placeholder="Enter your message..."
                             />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <label className="text-xs font-medium text-dark-400 flex items-center gap-2">
+                                    <Mail className="w-3 h-3" /> Subject
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="A message for you"
+                                    value={editSubject}
+                                    onChange={(e) => setEditSubject(e.target.value)}
+                                    className="flex h-10 w-full rounded-md border px-3 py-2 text-sm bg-dark-950 border-dark-700 focus:border-teal-500 text-dark-100 placeholder:text-dark-500 focus:outline-none"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-medium text-dark-400 flex items-center gap-2">
+                                    <Mail className="w-3 h-3" /> Sender Email
+                                </label>
+                                <input
+                                    type="email"
+                                    placeholder="Default from settings"
+                                    value={editSenderEmail}
+                                    onChange={(e) => setEditSenderEmail(e.target.value)}
+                                    className="flex h-10 w-full rounded-md border px-3 py-2 text-sm bg-dark-950 border-dark-700 focus:border-teal-500 text-dark-100 placeholder:text-dark-500 focus:outline-none"
+                                />
+                            </div>
                         </div>
 
                         {/* Attachments Toggle */}

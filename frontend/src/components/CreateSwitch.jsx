@@ -34,6 +34,8 @@ function formatMinutes(minutes) {
 
 export default function CreateSwitch({ setRoute }) {
     const [message, setMessage] = useState('');
+    const [subject, setSubject] = useState('');
+    const [senderEmail, setSenderEmail] = useState('');
     const [email, setEmail] = useState('');
     const [duration, setDuration] = useState(1440);
     const [reminders, setReminders] = useState([720]); // default to 12 hours before trigger
@@ -188,6 +190,8 @@ export default function CreateSwitch({ setRoute }) {
                 body: JSON.stringify({
                     content: message,
                     recipient_email: email,
+                    subject: subject,
+                    sender_email: senderEmail,
                     trigger_duration: duration,
                     reminders: reminders
                 })
@@ -218,6 +222,8 @@ export default function CreateSwitch({ setRoute }) {
 
             setSuccess(true);
             setMessage('');
+            setSubject('');
+            setSenderEmail('');
             setEmail('');
             setFiles([]);
             setUploadProgress('');
@@ -267,6 +273,34 @@ export default function CreateSwitch({ setRoute }) {
                             }}
                             className="min-h-[120px] bg-dark-950 border-dark-700 focus:border-teal-500 resize-none text-dark-100 placeholder:text-dark-500"
                         />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <label className="text-xs font-medium text-dark-400 flex items-center gap-2">
+                                <Mail className="w-3 h-3" /> Subject
+                            </label>
+                            <Input
+                                type="text"
+                                placeholder="A message for you"
+                                value={subject}
+                                onChange={(e) => setSubject(e.target.value)}
+                                className="bg-dark-950 border-dark-700 focus:border-teal-500 text-dark-100 placeholder:text-dark-500"
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-xs font-medium text-dark-400 flex items-center gap-2">
+                                <Mail className="w-3 h-3" /> Sender Email
+                            </label>
+                            <Input
+                                type="email"
+                                placeholder="Default from settings"
+                                value={senderEmail}
+                                onChange={(e) => setSenderEmail(e.target.value)}
+                                className="bg-dark-950 border-dark-700 focus:border-teal-500 text-dark-100 placeholder:text-dark-500"
+                            />
+                        </div>
                     </div>
 
                     {/* Attachments Toggle */}
